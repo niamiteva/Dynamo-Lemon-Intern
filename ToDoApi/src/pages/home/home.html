@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{entity}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content center text-center class="home">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-searchbar showCancelButton color="danger" (ionInput)="searchItems($event)"  (ionCancel)="cancelSearch()" ></ion-searchbar>
+
+  <ion-list *ngIf="DynamoProvider.res" >
+  <ion-item *ngFor="let todo of DynamoProvider.res"  >
+      <ion-checkbox *ngIf="entity == 'Activity'" style="margin-right: 15px" color="danger" [checked]="todo.DateCompleted != null ? true : false"  (ionChange)="updateDateCompleted(todo,$event)"></ion-checkbox>
+      <ion-avatar *ngIf="entity=='Contact'" item-start>
+          <ion-fab style="margin-top: -10px; margin-left: -10px">
+              <button ion-fab mini color="primary"><ion-icon name="contact"></ion-icon></button>
+          </ion-fab>
+        </ion-avatar>
+      <ion-label>
+          <!-- <a (click)="openModal({id : todo._id})"> -->
+            <a (click)="openTodo({item : todo})">
+              <h2>{{todo[toDisplay.prop1]}}</h2>
+              <p>{{todo[toDisplay.prop2]}}</p> <!--todo : dataformat-->        
+            </a>
+      </ion-label>
+      
+      
+     </ion-item>
+    </ion-list>
+  <ion-fab right bottom>
+      <button ion-fab color="danger" (click)="addTodoPage()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+  </ion-fab>
+</ion-content>
+
+<!-- (click)="GoToAddPage()" -->

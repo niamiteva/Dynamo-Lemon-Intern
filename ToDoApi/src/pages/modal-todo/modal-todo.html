@@ -1,0 +1,50 @@
+  <ion-header>
+        <ion-navbar hideBackButton="true">  
+            <ion-buttons >
+                <button ion-button icon-only (click)="goBack()">
+                    <ion-icon name="arrow-round-back" color="light" ></ion-icon>
+                </button>
+            </ion-buttons>
+            <!-- <ion-title><h3 style="font-size: 24px; font-weight: bold;">{{todo.Subject}}</h3></ion-title> -->
+            <ion-buttons end>
+                <button ion-button icon-only (click)="delete(item.item._id)">
+                    <ion-icon name="trash" color="light"></ion-icon>
+                </button>
+            </ion-buttons>
+        </ion-navbar>
+    </ion-header>
+
+    <ion-content class="modal-todo">  
+        <form (ngSubmit)="saveItem()" >
+                <ion-item *ngFor="let prop of schemaProvider.properties['properties']"  [hidden]="schemaProvider.notForTheUser(prop)">
+                    <!-- (ionChange)="updateDateCompleted(todo,todo._id,$event)" -->
+                    <ion-label  stacked color="primary">
+                        {{prop.label}}:
+                    </ion-label>
+                    <ion-textarea  *ngIf="prop.type.name == 'text'" 
+                                   #input (change)="editItem( prop.name, input['_value'])" 
+                                   value="{{item.item[prop.name]}}" 
+                                   name="prop['name']">
+                    </ion-textarea>
+                    <ion-checkbox *ngIf="prop.type.name == 'bool'"  
+                                  #checkbox (ionChange)="editItem(prop.name, $event)" 
+                                  [checked]="item.item[prop.name] != null ? true : false" 
+                                  name="prop['name']">
+                    </ion-checkbox>
+                    <ion-input  *ngIf="prop.type.name != 'text' && prop.type.name != 'bool'"  
+                                #input (change)="editItem(prop.name,  input['_value'])" 
+                                value="{{item.item[prop.name]}}" 
+                                [type]="schemaProvider.formatInputType(prop.type.name)"
+                                name="prop['name']">
+                    </ion-input>     
+                </ion-item>  
+            </form> 
+            <ion-fab right bottom>     
+                <button ion-fab  color="danger" type="submit" [disabled]="isEmpty()" (click)="save()">           
+                        <ion-icon name="create" color="light" ></ion-icon>          
+                </button>
+            </ion-fab>   
+        
+    </ion-content>
+
+    <!-- *ngFor="let item of todo" -->

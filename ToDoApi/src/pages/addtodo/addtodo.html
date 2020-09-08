@@ -1,0 +1,33 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>addtodo</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content center text-center class="addtodo">
+    <ion-grid>
+      <ion-row center>
+        <ion-col>
+          <form   [formGroup]="form" (ngSubmit)="postItem()" >
+              <ion-item *ngFor="let prop of schemaProvider.properties['properties']"  [hidden]="schemaProvider.isRequired(prop)">            
+                  <ion-label  stacked color="primary">{{prop.label}}</ion-label>
+                  <ion-input *ngIf="!schemaProvider.isRequired(prop)" 
+                             [type]="schemaProvider.formatInputType(prop.type.name)" 
+                             required [(ngModel)]="todo[prop.name]" 
+                             name="prop['name']" 
+                             formControlName="Property">
+                  </ion-input>
+              </ion-item>
+            <button ion-button type="submit" [disabled]="!form.valid" full>Add Todo</button>
+          </form>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  <!-- 
+    
+ 
+
+
+   -->
